@@ -1,0 +1,48 @@
+<div *ngIf="!post" >
+  <mat-spinner></mat-spinner>
+  <p>Загрузка...</p>
+</div>
+
+
+<div class="main">
+
+  <h3><small *ngIf="post.id">{{post.id}}.</small> {{post.title ? post.title : 'Заголовка нет'}}
+    <p><a *ngIf="post.url" [href]="post.url">{{post.url}}</a></p>
+  </h3>
+
+  <div>
+    <p>Комментарии:</p>
+
+
+    <app-comment [post]="post"></app-comment>
+<!--    <div *ngFor="let comment of post.children" style="width: 300px; border: 1px solid black; margin: 20px">-->
+
+<!--      <ul>-->
+<!--        <li>-->
+<!--          <div>-->
+<!--            <h3>{{comment.author}} <small>{{comment.created_at}}</small></h3>-->
+<!--            <div [innerHTML]="comment.text"></div>-->
+<!--            <p>{{comment.points}}</p>-->
+<!--          </div>-->
+
+<!--          <div *ngFor="let comment of comment.children" style="width: 300px; border: 1px solid black; margin: 20px">-->
+<!--            <ul>-->
+<!--              <li>-->
+<!--                <div>-->
+<!--                  <h3>{{comment.author}} <small>{{comment.created_at}}</small></h3>-->
+<!--                  <div [innerHTML]="comment.text"></div>-->
+<!--                  <p>{{comment.points}}</p>-->
+<!--                </div>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+
+    <p>Рейтинг:{{post.points}}</p>
+    <p>Автор:{{post.author}}</p>
+  </div>
+  <a routerLink="/">На главную</a>
+</div>
+

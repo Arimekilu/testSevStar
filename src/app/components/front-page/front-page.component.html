@@ -1,0 +1,28 @@
+<!--<app-post [post]="post"></app-post>-->
+<div *ngIf="posts.length === 0">
+  <mat-spinner></mat-spinner>
+  <p>Загрузка...</p>
+</div>
+
+<div *ngIf="posts">
+  <div *ngFor="let myPost of posts, let idx = index">
+
+    <div style="border: 1px solid black">
+
+      <h3><small>{{myPost.id}}.</small> {{myPost.title ? myPost.title : 'Заголовка нет'}}
+        <p><a *ngIf="myPost.url" [href]="myPost.url">{{myPost.url}}</a></p>
+      </h3>
+
+      <div>
+        <p>Комментариев:{{myPost.children.length}}</p>
+
+        <p>Рейтинг:{{myPost.points}}</p>
+        <p>Автор:{{myPost.author}}</p>
+      </div>
+      <a routerLink="/post/{{myPost.id}}">Перейти к новости</a>
+    </div>
+
+
+    <br>
+  </div>
+</div>
