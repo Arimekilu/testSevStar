@@ -5,11 +5,23 @@ export interface IPost {
   type: string,
   author: string,
   children: IPost[],
-  parent_id: any,
+  parent_id: unknown,
   points: number,
-  story_id: any,
+  story_id: unknown,
   text?: string,
   title: string | null,
   url: string
 
+}
+
+export interface IState {
+  state: 'error' | 'pending' | 'ready';
+}
+
+export interface IPostsModel extends IState{
+  items?: IPost[]
+}
+
+export interface IPostModel extends IState{
+  item?: IPost
 }

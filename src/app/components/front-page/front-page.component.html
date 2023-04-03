@@ -1,28 +1,57 @@
-<!--<app-post [post]="post"></app-post>-->
-<div *ngIf="posts.length === 0">
-  <mat-spinner></mat-spinner>
-  <p>Загрузка...</p>
-</div>
+<div *ngIf="posts$ | async as posts">
 
-<div *ngIf="posts">
-  <div *ngFor="let myPost of posts, let idx = index">
+  <ng-container *ngIf="posts.state === 'pending'" class="loader">
+    <mat-spinner></mat-spinner>
+  </ng-container>
 
-    <div style="border: 1px solid black">
+  <ng-container *ngIf="posts.state === 'ready'" class="postsContainer">
+    <div *ngFor="let myPost of posts.items">
+      <mat-card>
+        <mat-card-title>
+          <h3>
+            <small>{{myPost.id}}.</small> {{myPost.title ? myPost.title : 'Заголовка нет'}}
+          </h3>
+        </mat-card-title>
 
-      <h3><small>{{myPost.id}}.</small> {{myPost.title ? myPost.title : 'Заголовка нет'}}
-        <p><a *ngIf="myPost.url" [href]="myPost.url">{{myPost.url}}</a></p>
-      </h3>
+        <mat-card-subtitle>
+          <a *ngIf="myPost.url" [href]="myPost.url">{{myPost.url}}</a>
+        </mat-card-subtitle>
 
-      <div>
-        <p>Комментариев:{{myPost.children.length}}</p>
+        <mat-card-subtitle>{{myPost.author}}</mat-card-subtitle>
 
-        <p>Рейтинг:{{myPost.points}}</p>
-        <p>Автор:{{myPost.author}}</p>
-      </div>
-      <a routerLink="/post/{{myPost.id}}">Перейти к новости</a>
+        <mat-card-content [innerHTML]="myPost.text"></mat-card-content>
+
+        <mat-card-content>
+          <p>Комментариев:{{myPost.children.length}}</p>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-button routerLink="/post/{{myPost.id}}">Перейти к посту</button>
+          <button mat-button>LIKE</button>
+          <button mat-button>&#x2661; {{myPost.points}}</button>
+        </mat-card-actions>
+
+        <mat-card-footer>Создан: {{myPost.created_at | date: 'short'}}</mat-card-footer>
+      </mat-card>
+      <br>
     </div>
 
+    <div>
+      <button mat-button color="primary" (click)="initPosts(3)">1</button>
+      <button mat-button color="primary" (click)="initPosts(3)">2</button>
+      <button mat-button color="primary" (click)="initPosts(3)">3</button>
+    </div>
 
+  </ng-container>
+
+  <ng-container *ngIf="posts.state === 'error'">Ошибка
     <br>
-  </div>
+    <button (click)="reload()">Обновить</button>
+  </ng-container>
+
 </div>
+
+
+
+
+

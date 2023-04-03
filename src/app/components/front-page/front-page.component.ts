@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IPost} from "../../interfaces/interfaces";
+import {IPostsModel} from "../../interfaces/interfaces";
 import {DataService} from "../../services/data.service";
 import {Observable} from "rxjs";
 
@@ -12,17 +12,21 @@ import {Observable} from "rxjs";
 export class FrontPageComponent implements OnInit {
 
 
-  posts: IPost[] = []
+  public posts$: Observable<IPostsModel>
 
   constructor(private dataService: DataService) {
-    this.dataService.getData().subscribe(
-      res => this.posts = res
-    )
+
+  }
+
+  public initPosts (pageNumber: number): void {
+    this.posts$ = this.dataService.getData(pageNumber)
   }
 
   ngOnInit(): void {
-
-
+   this.initPosts(1)
   }
 
+ public reload() {
+    this.dataService.reloadData()
+  }
 }
